@@ -1,0 +1,57 @@
+<html>
+<head>
+<title>Paxton Card ID Translator</title>
+<script>
+let cardInput = document.getElementById('card');
+let paxtonOutput = document.getElementById('paxton');
+
+cardInput.addEventListener('input', (event) => {
+  if (cardInput.value.length != 10) {
+    paxton.innerHTML = "";
+  }
+});
+
+
+cardInput.addEventListener('change', (event) => {
+  const thisTarget = event.target;
+
+  const start = thisTarget.value;
+  console.log('Card ID received: (%s)', thisTarget.value);
+
+  if (start.length !== 10) {
+  	alert("Card ID must be a 10 digit number");
+    return;
+  }
+
+  const no = parseInt(start, 10);
+  const hex = no.toString(16);
+  console.log("Hex string: (%s)", hex);
+
+  const reordered = hex.substring(6) + hex.substring(4,6) + hex.substring(2,4) + hex.substring(0,2);
+  console.log("Reordered: (%s)", reordered);
+
+  const reint = parseInt(reordered, 16);
+  const restr = reint.toString(10);
+  const cut = restr.substr(2);
+  paxton.innerHTML = cut;
+
+  navigator.clipboard.writeText(cut);
+
+ 	cardInput.focus();
+  cardInput.select();
+
+});
+
+</script>
+</head>
+<body>
+Enter Card ID: <input type="text" id="card">
+<p>
+Card ID for Clubright/Paxton: <span style="font-weight: bold;" id="paxton"></span>
+</p>
+<p>
+Card ID for Clubright/Paxton is automatically copied to clipboard, so you can go straight to Clubright and
+paste it there.
+</p>
+</body>
+</html>
